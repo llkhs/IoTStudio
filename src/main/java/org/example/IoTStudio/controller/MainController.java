@@ -18,7 +18,7 @@ import java.math.BigInteger;
 @RestController
 @RequestMapping("main")
 public class MainController {
-    @Autowired
+
     MainService mainService;
 
     @ApiOperation(value = "打卡", notes = "打卡函数")

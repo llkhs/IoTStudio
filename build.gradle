@@ -52,6 +52,18 @@ configurations {
 
 dependencies {
 
+
+    implementation('org.springframework.boot:spring-boot-starter-jdbc')
+    runtimeOnly('mysql:mysql-connector-java')
+    compile 'org.apache.shiro:shiro-core:1.4.1'
+    implementation('io.jsonwebtoken:jjwt:0.2')
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    compileOnly 'org.projectlombok:lombok'
+    runtimeOnly 'com.github.atool:fluent-mybatis:1.7.2'
+    runtimeOnly 'com.github.atool:fluent-mybatis-processor:1.7.2'
+    annotationProcessor'com.github.atool:fluent-mybatis-processor:1.7.2'
+
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.slf4j:slf4j-api:1.7.5'
     compileOnly 'org.projectlombok:lombok'
