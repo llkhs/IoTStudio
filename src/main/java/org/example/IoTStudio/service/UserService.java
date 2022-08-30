@@ -12,6 +12,9 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 @EnableAsync
 @Service
@@ -22,21 +25,25 @@ public class UserService{
     @Autowired
     private final UserDao userDao;
     private final JwtUtil jwtUtil;
-
-    public UserService(UserDao userDao, JwtUtil jwtUtil) {
+    @Autowired
+    private AddressService addressService;
+    public UserService(UserDao userDao, JwtUtil jwtUtil,AddressService addressService) {
         super();
         this.userDao = userDao;
         this.jwtUtil = jwtUtil;
+        this.addressService=addressService;
     }
 
 
 
     public void userRegister(TbUser user) {
         try {
+            System.out.println("--------------------register new user");
+            String address = addressService.GetNewAddress(user.getUsername());
+            System.out.println(address);
             //user.setUid(idWorker.nextId());
+            user.setAddress(address);
             user.setFlag(1);
-
-            //user.setAddtime(DateTimeTransferUtil.getNowTimeStamp());
             //user.setPasswd(bCryptPasswordEncoder.encode(user.getPasswd()));
             userDao.userRegister(user);
         } catch (Exception e) {
@@ -44,15 +51,25 @@ public class UserService{
         }
     }
 
-    public String userLogin(TbUser user) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@4");
+    public Map<String,String> userLogin(TbUser user) {
+        System.out.println("--------------------login username");
         System.out.println(user.getUsername()+"");
-        TbUser trueUserInfo = userDao.userLogin(user.getUsername());
-
-        if (trueUserInfo.getPasswd().equals(user.getPasswd())){
-            return jwtUtil.createJWT(trueUserInfo.getUsername()+"",trueUserInfo.getUsername()+"");
+        try {
+            TbUser trueUserInfo = userDao.userLogin(user.getUsername());
+            if (trueUserInfo.getPasswd().equals(user.getPasswd())){
+                Map<String,String> map = new HashMap<String,String>();
+                map.put("token", "Bearer " + jwtUtil.createJWT(trueUserInfo.getUsername()+"",trueUserInfo.getPasswd()+""));
+                map.put("address",trueUserInfo.getAddress()+"");
+                System.out.println(map.get("token"));
+                System.out.println(map.get("address"));
+                return map;
+            }else {
+                throw new InternalAuthenticationServiceException("用户名或密码有误");
+            }
         }
-        throw new InternalAuthenticationServiceException("用户名或密码有误");
+        catch (Exception e){
+            throw new InternalAuthenticationServiceException("用户名或密码有误");
+        }
     }
 
 

@@ -18,7 +18,7 @@ public interface UserDao {
     @Select("" + "SELECT uid,username,passwd,address FROM tb_user WHERE username = #{loginName}" + "")
     TbUser userLogin(@Param("loginName") String loginName);
 
-    @Select("" + "SELECT * address FROM tb_user WHERE username = #{username}" + "")
-    TbUser checkUserName(@Param("username") String username);
+    @Select("" + "SELECT 1 address FROM tb_user WHERE username = #{username} LIMIT 1" + "")
+    Integer checkUserName(@Param("username") String username);
 
 }

@@ -3,6 +3,7 @@ package org.example.IoTStudio.controller;
 import cn.hutool.core.lang.Dict;
 import org.example.IoTStudio.model.bean.TbUser;
 import org.example.IoTStudio.model.bean.CommonResult;
+import org.example.IoTStudio.service.AddressService;
 import org.example.IoTStudio.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
@@ -34,7 +35,7 @@ public class UserController {
 
     @PostMapping("/register")
     public CommonResult<String> register(@RequestBody TbUser user) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@1");
+        System.out.println("--------------------req username");
         System.out.println(user.getUsername()+"");
         userService.userRegister(user);
         //user.setAddress(); 待添加获取地址
@@ -43,12 +44,11 @@ public class UserController {
 
     @PostMapping("/login")
     public CommonResult<String> login(@RequestBody TbUser user) {
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@2");
+        System.out.println("--------------------req username");
         System.out.println(user.getUsername()+"");
-        String token = userService.userLogin(user);
-        System.out.println("@@@@@@@@@@@@@@@@@@@@@@3");
-        System.out.println(token);
-        return new CommonResult<>(20000, "OK", "Bearer " + token);
+        String value = userService.userLogin(user).toString();
+        System.out.println("--------------------token");
+        return new CommonResult<>(20000, "OK", value+"");
     }
 
 

@@ -35,7 +35,7 @@ public class TokenInterceptor implements HandlerInterceptor {
                     if (Key != null) {
                         request.setAttribute("username",claims.getId());
                         request.setAttribute("key",Key);
-                        System.out.println("ReEncode succres");
+                        System.out.println("--------------------decode succeeded");
                         return true;
                     } else {
                         throw new BadCredentialsException("令牌已失效");

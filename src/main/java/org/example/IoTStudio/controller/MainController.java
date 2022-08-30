@@ -1,16 +1,13 @@
 package org.example.IoTStudio.controller;
 
-import cn.hutool.core.lang.Dict;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.example.IoTStudio.model.bo.MainCheckInInputBO;
+import org.example.IoTStudio.model.bo.MainCheckTotal1InputBO;
 import org.example.IoTStudio.model.bo.MainCheckTotalInputBO;
 import org.example.IoTStudio.service.MainService;
-import org.fisco.bcos.sdk.abi.datatypes.Int;
 import org.fisco.bcos.sdk.transaction.model.dto.CallResponse;
 import org.fisco.bcos.sdk.transaction.model.dto.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
@@ -22,9 +19,12 @@ import java.math.BigInteger;
 public class MainController {
 
     @Autowired
-    MainService mainService;
+    private final MainService mainService;
 
-    @ApiOperation(value = "打卡", notes = "打卡函数")
+    public MainController(MainService mainService) {
+        this.mainService = mainService;
+    }
+
     @RequestMapping(value = "/checkIn", method = RequestMethod.GET)
     public TransactionResponse checkIn(@RequestParam("date") Integer date, @RequestParam("address")String address, @RequestParam("count") Integer count) throws Exception {
         MainCheckInInputBO funcParam = new MainCheckInInputBO();
@@ -35,7 +35,6 @@ public class MainController {
         return response;
     }
 
-    @ApiOperation(value = "查询", notes = "查询函数")
     @RequestMapping(value = "/getTotal", method = RequestMethod.GET)
     public CallResponse checkTotal(@RequestParam("address")String address) throws Exception {
         MainCheckTotalInputBO param = new MainCheckTotalInputBO();
@@ -44,7 +43,15 @@ public class MainController {
         return response;
     }
 
-    @ApiOperation(value = "时间", notes = "时间函数")
+    @RequestMapping(value = "/getMonthTotal", method = RequestMethod.GET)
+    public CallResponse checkTotal(@RequestParam("address")String address, @RequestParam("date")BigInteger date) throws Exception {
+        MainCheckTotal1InputBO param = new MainCheckTotal1InputBO();
+        param.set_address(address);
+        param.set_firstMonth(date);
+        CallResponse response = mainService.checkTotal(param);
+        return response;
+    }
+
     @RequestMapping(value = "/getNow", method = RequestMethod.GET)
     public CallResponse getNow() throws Exception {
         CallResponse response = mainService.getNow();
