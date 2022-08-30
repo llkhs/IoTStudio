@@ -10,19 +10,22 @@ import org.fisco.bcos.sdk.abi.datatypes.Int;
 import org.fisco.bcos.sdk.transaction.model.dto.CallResponse;
 import org.fisco.bcos.sdk.transaction.model.dto.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigInteger;
 
+
 @Api(value = "打卡 Controller", tags = {"打卡 Api"})
 @RestController
-@RequestMapping("main")
+@RequestMapping("/main")
 public class MainController {
 
+    @Autowired
     MainService mainService;
 
     @ApiOperation(value = "打卡", notes = "打卡函数")
-    @RequestMapping(value = "checkIn", method = RequestMethod.GET)
+    @RequestMapping(value = "/checkIn", method = RequestMethod.GET)
     public TransactionResponse checkIn(@RequestParam("date") Integer date, @RequestParam("address")String address, @RequestParam("count") Integer count) throws Exception {
         MainCheckInInputBO funcParam = new MainCheckInInputBO();
         funcParam.set_date(BigInteger.valueOf(date));;
@@ -33,7 +36,7 @@ public class MainController {
     }
 
     @ApiOperation(value = "查询", notes = "查询函数")
-    @RequestMapping(value = "getTotal", method = RequestMethod.GET)
+    @RequestMapping(value = "/getTotal", method = RequestMethod.GET)
     public CallResponse checkTotal(@RequestParam("address")String address) throws Exception {
         MainCheckTotalInputBO param = new MainCheckTotalInputBO();
         param.set_address(address);
@@ -42,7 +45,7 @@ public class MainController {
     }
 
     @ApiOperation(value = "时间", notes = "时间函数")
-    @RequestMapping(value = "getNow", method = RequestMethod.GET)
+    @RequestMapping(value = "/getNow", method = RequestMethod.GET)
     public CallResponse getNow() throws Exception {
         CallResponse response = mainService.getNow();
         return response;

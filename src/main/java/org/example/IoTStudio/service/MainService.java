@@ -18,13 +18,18 @@ import org.fisco.bcos.sdk.transaction.model.dto.CallResponse;
 import org.fisco.bcos.sdk.transaction.model.dto.TransactionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 @Service
 @NoArgsConstructor
 @Data
+@EnableAutoConfiguration
+@ConfigurationProperties("contract.mainaddress")
+
 public class MainService {
-  @Value("${contract.mainAddress}")
+  //@Value("${contract.mainAddress}")
   private String address;
 
   @Autowired

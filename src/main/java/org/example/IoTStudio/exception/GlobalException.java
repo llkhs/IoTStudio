@@ -27,13 +27,13 @@ public class GlobalException {
             return new CommonResult<>(40001, "Error", "参数验证错误");
         } else if (e instanceof HttpRequestMethodNotSupportedException) {
             //请求方法有误
-            return new CommonResult<>(40002, "ERROR", "错误的请求方法");
+            return new CommonResult<>(40002, "Error", "错误的请求方法");
         } else if (e instanceof HttpMessageNotReadableException) {
             //请求体错误
-            return new CommonResult<>(40003, "ERROR", "错误的请求体");
+            return new CommonResult<>(40003, "Error", "错误的请求体");
         } else if (e instanceof IllegalArgumentException) {
             //错误的参数
-            return new CommonResult<>(40004, "ERROR", "错误的请求参数");
+            return new CommonResult<>(40004, "Error", "错误的请求参数");
         } else if (e instanceof AccessDeniedException) {
             //用户权限不足
             return new CommonResult<>(40005, "Error", e.getMessage());
@@ -51,9 +51,9 @@ public class GlobalException {
             return new CommonResult<>(40013, "Error", e.getMessage());
         } else if (e instanceof DuplicateKeyException) {
             //用户名重复
-            return new CommonResult<>(40014, "ERROR", e.getMessage());
+            return new CommonResult<>(40014, "Error", e.getMessage());
         } else {
-            return new CommonResult<>(50000, "Error", "你触发了一个未知错误！");
+            return new CommonResult<>(500, "Error", "未知错误！");
         }
     }
 }

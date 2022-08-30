@@ -11,11 +11,12 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 
 //jwt生成以及校验工具类
+@ConfigurationProperties("jwt.config")
 @Component
 public class JwtUtil {
-    @Value("${jwt.config.key}")
+    //@Value("${jwt.config.key}")
     private String key;
-    @Value("${jwt.config.ttl}")
+    //@Value("${jwt.config.ttl}")
     private long ttl;
 
     public String getKey() {
@@ -35,12 +36,12 @@ public class JwtUtil {
     }
 
     //生成jwt
-    public String createJWT(String id, String roles) {
+    public String createJWT(String id, String keys) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         JwtBuilder builder = Jwts.builder().setId(id)	//在这里将用户的id存入jwt中，方便后续使用
                 .setIssuedAt(now)
-                .signWith(SignatureAlgorithm.HS256, key).claim("roles", roles); //在这里将用户的角色存入jwt中，方便后续鉴权
+                .signWith(SignatureAlgorithm.HS256, key).claim("key", keys); //在这里将用户的角色存入jwt中，方便后续鉴权
         if (ttl > 0) {
             builder.setExpiration(new Date(nowMillis + ttl));
         }

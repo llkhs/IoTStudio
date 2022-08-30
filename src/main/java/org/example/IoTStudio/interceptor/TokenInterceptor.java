@@ -31,10 +31,11 @@ public class TokenInterceptor implements HandlerInterceptor {
                 //验证token
                 try {
                     Claims claims = jwtUtil.parseJWT(token);
-                    String roles = (String) claims.get("roles");
-                    if (roles != null) {
-                        request.setAttribute("uid",claims.getId());
-                        request.setAttribute("roles",roles);
+                    String Key = (String) claims.get("key");
+                    if (Key != null) {
+                        request.setAttribute("username",claims.getId());
+                        request.setAttribute("key",Key);
+                        System.out.println("ReEncode succres");
                         return true;
                     } else {
                         throw new BadCredentialsException("令牌已失效");
