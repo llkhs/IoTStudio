@@ -1,0 +1,59 @@
+### Java sdk configuration
+bcos:
+  cryptoMaterial:
+    certPath: conf
+  network:
+      peers[0]: 127.0.0.1:20200
+      peers[1]: 127.0.0.1:20201
+
+### System configuration
+system:
+  groupId: 1
+  privateKey: "5db6939aa78a05dff3beb4916bd5cbc34d71f5bd448e2f046b86e16bbb0d27d4"
+
+
+
+server:
+  port: 8080 #监听端口为8090
+
+spring:
+  application:
+    name: IoTStudiovalue
+  datasource:
+    druid:
+      url: jdbc:mysql://127.0.0.1:3306/IoTStudioDB-main?serverTimezone=GMT%2B8&useUnicode=true&characterEncoding=utf-8&useSSL=false
+      # type: com.alibaba.druid.pool.DruidDataSource #配置数据库连接池为Druid
+      driver-class-name: com.mysql.cj.jdbc.Driver  #配置数据库
+      username: root
+      password: fghe5gf2dr
+      validation-query: select 'x'
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+  banner:
+    charset: UTF-8
+
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+jwt:
+  config:
+    key: 88888888
+    ttl: 21600000
+
+### Contract configuration
+contract:
+  uint2strAddress:
+    address: "0xa3bdc899ec20791b364ec3d1050d27cb2d637cf1"
+  dateTimeAddress:
+    address: "0xb15172ff24a8ad8b780359aa6c600c71f19890ec"
+  mainAddress:
+    address: "0x11e8fd25b2ffd7e8f6158efd7ef7330570177212"
